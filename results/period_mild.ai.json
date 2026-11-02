@@ -1,0 +1,80 @@
+{
+  "overall_summary": "[요약] finish 단계에서 setup 위반 46개, WNS -0.37ns, TNS -9.71ns입니다(위반 1개당 평균 약 -0.21ns). hold, slew, cap, fanout 위반은 0개입니다. 따라서 문제는 경로 한두 개가 아니라 데이터패스 전체에 걸쳐 있습니다. 리포트상 core_clock의 최소 주기는 2.3ns(fmax 434.64MHz)입니다. 현재 목표 2.0ns보다 0.3ns 길고, 이 값은 reg2reg WNS -0.30ns와 정확히 같습니다.\n\n[공통 패턴] 두 경로 모두 wire_delay_sum이 0.0, 최대 fanout이 3, 최대 cap이 0.02pF, clock_skew가 0.0입니다. 즉 배선, 팬아웃, 스큐 문제가 아닙니다. 원인은 `_119_` 블록의 순수 조합 논리 깊이입니다. 셀 구성(xnor3 → or2/nor3/a221oi/o311ai 캐리 체인 → xnor2)으로 보면 `_119_`는 16비트 감산기 또는 비교기로 추정됩니다. 이름(dpath.a_reg, resp_msg)으로 보면 GCD 계열 디자인이며, 경로는 a_reg → 감산기 → mux → a_reg로 이어지는 1사이클 루프입니다.\n- 플롭 오버헤드: edfxtp_1의 clk-to-Q 0.38과 setup 0.25를 합하면 0.63ns로, 주기의 31.5%를 차지합니다.\n- 툴이 넣은 버퍼(inserted_buffers)는 0개입니다. repair_timing이 버퍼링으로 개선할 여지를 찾지 못했다는 뜻입니다.\n- 참고: finish 단계인데 wire delay가 전부 0.00인 것은 소수점 둘째 자리 반올림 때문일 수 있습니다. report_checks -digits 4로 확인하는 것을 권장합니다(confidence low).\n\n[PD만으로 닫을 수 있는지]\n- reg2reg(-0.30): 사이징만으로 얻을 수 있는 이득은 약 0.15~0.25ns로 추정되며, 완전히 닫기는 어렵습니다. 근거는 or2_1, mux2i_1, o21ai_0 업사이징과 nor3/o311ai의 느린 출력 slew(0.25/0.27) 개선입니다. Useful skew는 a_reg가 루프를 이루므로 효과가 제한적입니다.\n- IO 경로(-0.37): output delay 0.4ns(주기의 20%)가 예산을 잠식하므로 PD만으로는 불가능합니다.\n- 결론: 주기를 2.3~2.4ns로 완화하거나, 감산기 구조 변경, 출력 레지스터 추가 같은 RTL/제약 조치가 필요합니다.",
+  "paths": [
+    {
+      "startpoint": "dpath.a_reg.out[4]$_DFFE_PP_",
+      "endpoint": "dpath.a_reg.out[15]$_DFFE_PP_",
+      "slack": -0.3,
+      "root_causes": [
+        {
+          "category": "logic_depth",
+          "confidence": "high",
+          "evidence": "logic_depth 9이고, data_path_delay 2.04가 전부 cell_delay_sum 2.04입니다(wire 0.0). 셀 지연은 다음과 같습니다: xnor3 0.41 → or2 0.30 → nor3 0.22 → a221oi 0.12 → o311ai 0.28 → xnor2 0.10 → mux2i 0.14 → o21ai 0.09. 감산기 캐리 체인(_119_)과 다음 상태 mux가 한 사이클에 직렬로 연결된 구조입니다. 조합 논리만 1.66ns로, 가용 예산 2.0-0.25-0.38=1.37ns를 0.29ns 초과합니다."
+        },
+        {
+          "category": "slow_cell",
+          "confidence": "medium",
+          "evidence": "xnor3_2(0.41)과 or2_1(0.30) 두 셀이 조합 지연의 43%(0.71/1.66)를 차지합니다. or2_1은 최소 사이즈인데 fanout 3, cap 0.02를 구동합니다. nor3_2 출력 slew 0.25와 o311ai_4 출력 slew 0.27은 직렬 PMOS 스택 때문에 느립니다. 또 enable 플롭 edfxtp_1의 clk-to-Q 0.38과 setup 0.25를 합한 0.63ns가 주기의 31.5%를 차지합니다."
+        },
+        {
+          "category": "other",
+          "confidence": "low",
+          "evidence": "clock_min_period 2.3ns는 2.0+0.30과 일치합니다. 위반 46개, TNS -9.71이므로 a_reg/b_reg 전 비트에 걸친 체계적 위반으로 추정됩니다. 목표 주기 자체가 이 구조에는 공격적입니다."
+        }
+      ],
+      "pd_fixes": [
+        "or2_1(_119_/_214_) → or2_2/or2_4로 업사이징: fanout 3, cap 0.02 구동, 예상 이득 0.05~0.1ns",
+        "nor3_2(_225_), o311ai_4(_130_): 출력 slew 0.25/0.27 개선을 위해 업사이징하거나, repair_timing의 핀 스왑으로 늦게 도착하는 신호를 빠른 입력핀(스택 바깥쪽)에 배정",
+        "mux2i_1(_202_), o21ai_0(_204_) 업사이징: 엔드포인트 직전 0.23ns, 예상 이득 0.03~0.05ns",
+        "xnor3_2 → xnor3_4는 부하가 0.01로 작아 이득이 제한적입니다. 이 셀을 xnor2 두 개로 분해하는 로직 재구성은 PD repair 범위를 넘을 수 있습니다",
+        "Useful skew: a_reg[15] 캡처 클럭을 늦추는 방법입니다. a_reg가 감산기 루프의 시작점이자 끝점이어서 [15]에서 출발하는 경로의 slack을 먼저 확인해야 하며, 루프 전체 지연은 줄지 않으므로 효과가 제한적입니다",
+        "repair_timing -setup_margin을 높이고 반복 횟수를 늘려 재실행"
+      ],
+      "rtl_or_constraint_fixes": [
+        "core_clock 주기를 2.3~2.4ns로 완화: 리포트상 min period 2.3ns",
+        "감산기 구조 변경: 프리픽스/캐리 룩어헤드 가산기를 쓰거나, a-b와 b-a(또는 비교 결과)를 병렬로 미리 계산하는 carry-select 방식",
+        "합성 시 ABC 클럭 목표를 타이트하게 주거나 timing-driven 스크립트를 사용해 깊이 위주로 재합성",
+        "enable 플롭(edfxtp, setup 0.25) 대신 dfxtp+mux 매핑 검토: 예상 이득 약 0.05~0.1ns, low confidence",
+        "GCD 반복 연산을 2단계로 파이프라이닝(비교/감산 분리): 사이클 수 증가와 맞바꾸는 방식"
+      ],
+      "closable_by_pd_only": false,
+      "reasoning": "위반은 주기의 15%인 0.30ns입니다. wire 0.0, fanout ≤3, skew 0.0이므로 버퍼링, 배치, CTS로 줄일 여지가 거의 없습니다. 실제로 inserted_buffers도 0개입니다. 남는 수단은 사이징뿐이고, 추정 이득 0.15~0.25ns로는 0.30ns에 미치지 못할 가능성이 큽니다. 위반이 46개로 널리 퍼져 있다는 점도 부담입니다. a_reg 루프 구조라 useful skew도 제한적입니다. 따라서 PD만으로는 경계선이거나 불가능하다고 판단하며(confidence medium), 주기 2.3ns 이상 또는 구조 변경을 권장합니다."
+    },
+    {
+      "startpoint": "dpath.a_reg.out[4]$_DFFE_PP_",
+      "endpoint": "resp_msg[15]",
+      "slack": -0.37,
+      "root_causes": [
+        {
+          "category": "io_constraint",
+          "confidence": "high",
+          "evidence": "output_external_delay가 0.4ns로 주기 2.0의 20%를 소비합니다. required 1.89 = 2.0 + 0.29 - 0.4이며, 이 경로의 data_path_delay(clk-to-Q 포함)는 1.96ns로 약 0.37ns 초과합니다. 외부 지연 0.4가 없었다면 slack은 약 +0.03입니다."
+        },
+        {
+          "category": "logic_depth",
+          "confidence": "high",
+          "evidence": "logic_depth 8입니다. reg2reg 경로와 같은 감산기 체인(xnor3 0.41 → or2 0.30 → nor3 0.22 → a221oi 0.12 → o311ai 0.28)을 공유하고, xnor2 0.15를 거쳐 출력 버퍼 buf_1 0.10에 도달합니다. 등록되지 않은 조합 출력입니다."
+        },
+        {
+          "category": "slow_cell",
+          "confidence": "medium",
+          "evidence": "_131_ xnor2_2는 reg2reg 경로에서 0.10이지만 여기서는 0.15이고 출력 slew도 0.13입니다. 출력 버퍼와 mux를 함께 구동하기 때문입니다(fanout 2). 포트 버퍼 output45가 buf_1이라 0.10을 추가합니다."
+        }
+      ],
+      "pd_fixes": [
+        "포트 버퍼 output45를 buf_1에서 buf_2/buf_4로 업사이징하고, _131_ xnor2_2도 업사이징: 예상 합계 약 0.05ns",
+        "reg2reg 경로와 같은 공유 감산기 셀 업사이징(or2_1, nor3, o311ai): 두 경로에 동시에 이득",
+        "출력 버퍼를 포트 쪽에 배치 최적화: 현재 wire가 0이라 효과는 미미",
+        "런치 클럭 latency 0.29를 줄이는 방법은 vclk에도 0.29가 반영된 상태라 효과가 상쇄됩니다(confidence low)"
+      ],
+      "rtl_or_constraint_fixes": [
+        "resp_msg를 레지스터로 받은 뒤 출력(registered output): 레이턴시 1사이클 증가, 가장 확실한 해결책",
+        "set_output_delay 0.4를 실제 외부 인터페이스 요구에 맞게 재검토: 보수적으로 잡힌 값이면 완화",
+        "결과 출력 경로를 감산기에서 분리: 예컨대 GCD 완료 시 결과는 이미 a_reg에 있으므로 a_reg를 직접 출력하도록 RTL 변경",
+        "클럭 주기 완화(2.4ns 이상)"
+      ],
+      "closable_by_pd_only": false,
+      "reasoning": "위반 0.37ns 중 약 0.4ns가 output external delay 제약에서 생깁니다. 데이터패스는 reg2reg 경로와 같은 감산기 체인이고 wire 0, fanout ≤3입니다. PD로 줄일 수 있는 것은 사이징 수준(약 0.1~0.2ns)뿐이라 -0.37을 닫기 어렵습니다. 출력 레지스터 추가, output delay 재검토, 출력 소스 변경 같은 RTL/제약 조치가 필수입니다."
+    }
+  ]
+}

@@ -1,0 +1,768 @@
+{
+  "summary": {
+    "tns": -53.18,
+    "wns": -1.22,
+    "worst_slack": -1.22,
+    "setup_violation_count": 66,
+    "hold_violation_count": 0,
+    "max_slew_violation_count": 0,
+    "max_cap_violation_count": 0,
+    "max_fanout_violation_count": 0,
+    "clock_min_period": {
+      "core_clock": {
+        "period_min": 2.32,
+        "fmax": "430.70"
+      },
+      "vclk_core_clock": {
+        "period_min": 0.0,
+        "fmax": "inf"
+      }
+    }
+  },
+  "paths": [
+    {
+      "startpoint": "reset",
+      "startpoint_type": "input port clocked by vclk_core_clock",
+      "endpoint": "ctrl.state.out[2]$_DFF_P_",
+      "endpoint_type": "rising edge-triggered flip-flop clocked by core_clock",
+      "path_group": "core_clock",
+      "path_type": "min",
+      "slack": 0.44,
+      "status": "MET",
+      "required_time": 0.25,
+      "arrival_time": 0.69,
+      "library_hold_time": 0.03,
+      "input_external_delay": 0.22,
+      "capture_clock_latency": 0.29,
+      "clock_period_used": 0.0,
+      "stages": [
+        {
+          "pin": "reset",
+          "cell": "in",
+          "edge": "fall",
+          "fanout": 1,
+          "cap": 0.0,
+          "slew": 0.0,
+          "delay": 0.0,
+          "time": 0.51,
+          "kind": "out"
+        },
+        {
+          "pin": "input36/A",
+          "cell": "sky130_fd_sc_hd__buf_1",
+          "edge": "fall",
+          "slew": 0.0,
+          "delay": 0.0,
+          "time": 0.51,
+          "kind": "in"
+        },
+        {
+          "pin": "input36/X",
+          "cell": "sky130_fd_sc_hd__buf_1",
+          "edge": "fall",
+          "fanout": 3,
+          "cap": 0.01,
+          "slew": 0.06,
+          "delay": 0.1,
+          "time": 0.61,
+          "kind": "out"
+        },
+        {
+          "pin": "_201_/B",
+          "cell": "sky130_fd_sc_hd__nor2_1",
+          "edge": "fall",
+          "slew": 0.06,
+          "delay": 0.0,
+          "time": 0.61,
+          "kind": "in"
+        },
+        {
+          "pin": "_201_/Y",
+          "cell": "sky130_fd_sc_hd__nor2_1",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.0,
+          "slew": 0.07,
+          "delay": 0.08,
+          "time": 0.69,
+          "kind": "out"
+        },
+        {
+          "pin": "ctrl.state.out[2]$_DFF_P_/D",
+          "cell": "sky130_fd_sc_hd__dfxtp_1",
+          "edge": "rise",
+          "slew": 0.07,
+          "delay": 0.0,
+          "time": 0.69,
+          "kind": "in"
+        }
+      ],
+      "metrics": {
+        "logic_depth": 2,
+        "data_path_delay": 0.18,
+        "cell_delay_sum": 0.18,
+        "wire_delay_sum": 0.0,
+        "wire_delay_ratio": 0.0,
+        "max_fanout": 3,
+        "max_slew": 0.07,
+        "slowest_cells": [
+          {
+            "pin": "input36/X",
+            "cell": "sky130_fd_sc_hd__buf_1",
+            "delay": 0.1,
+            "fanout": 3,
+            "cap": 0.01
+          },
+          {
+            "pin": "_201_/Y",
+            "cell": "sky130_fd_sc_hd__nor2_1",
+            "delay": 0.08,
+            "fanout": 1,
+            "cap": 0.0
+          }
+        ],
+        "inserted_buffers": []
+      },
+      "section": "finish report_checks -path_delay min"
+    },
+    {
+      "startpoint": "ctrl.state.out[1]$_DFF_P_",
+      "startpoint_type": "rising edge-triggered flip-flop clocked by core_clock",
+      "endpoint": "resp_val",
+      "endpoint_type": "output port clocked by vclk_core_clock",
+      "path_group": "vclk_core_clock",
+      "path_type": "min",
+      "slack": 0.72,
+      "status": "MET",
+      "required_time": 0.07,
+      "arrival_time": 0.79,
+      "output_external_delay": 0.22,
+      "launch_clock_latency": 0.29,
+      "stages": [
+        {
+          "pin": "ctrl.state.out[1]$_DFF_P_/Q",
+          "cell": "sky130_fd_sc_hd__dfxtp_1",
+          "edge": "fall",
+          "fanout": 2,
+          "cap": 0.01,
+          "slew": 0.05,
+          "delay": 0.33,
+          "time": 0.61,
+          "kind": "out"
+        },
+        {
+          "pin": "_121_/A",
+          "cell": "sky130_fd_sc_hd__clkinv_1",
+          "edge": "fall",
+          "slew": 0.05,
+          "delay": 0.0,
+          "time": 0.61,
+          "kind": "in"
+        },
+        {
+          "pin": "_121_/Y",
+          "cell": "sky130_fd_sc_hd__clkinv_1",
+          "edge": "rise",
+          "fanout": 2,
+          "cap": 0.01,
+          "slew": 0.04,
+          "delay": 0.06,
+          "time": 0.67,
+          "kind": "out"
+        },
+        {
+          "pin": "_187_/B",
+          "cell": "sky130_fd_sc_hd__nor2_1",
+          "edge": "rise",
+          "slew": 0.04,
+          "delay": 0.0,
+          "time": 0.67,
+          "kind": "in"
+        },
+        {
+          "pin": "_187_/Y",
+          "cell": "sky130_fd_sc_hd__nor2_1",
+          "edge": "fall",
+          "fanout": 2,
+          "cap": 0.01,
+          "slew": 0.03,
+          "delay": 0.04,
+          "time": 0.72,
+          "kind": "out"
+        },
+        {
+          "pin": "output55/A",
+          "cell": "sky130_fd_sc_hd__buf_1",
+          "edge": "fall",
+          "slew": 0.03,
+          "delay": 0.0,
+          "time": 0.72,
+          "kind": "in"
+        },
+        {
+          "pin": "output55/X",
+          "cell": "sky130_fd_sc_hd__buf_1",
+          "edge": "fall",
+          "fanout": 1,
+          "cap": 0.0,
+          "slew": 0.02,
+          "delay": 0.07,
+          "time": 0.79,
+          "kind": "out"
+        },
+        {
+          "pin": "resp_val",
+          "cell": "out",
+          "edge": "fall",
+          "slew": 0.02,
+          "delay": 0.0,
+          "time": 0.79,
+          "kind": "in"
+        }
+      ],
+      "metrics": {
+        "logic_depth": 4,
+        "data_path_delay": 0.5,
+        "cell_delay_sum": 0.5,
+        "wire_delay_sum": 0.0,
+        "wire_delay_ratio": 0.0,
+        "max_fanout": 2,
+        "max_slew": 0.05,
+        "slowest_cells": [
+          {
+            "pin": "ctrl.state.out[1]$_DFF_P_/Q",
+            "cell": "sky130_fd_sc_hd__dfxtp_1",
+            "delay": 0.33,
+            "fanout": 2,
+            "cap": 0.01
+          },
+          {
+            "pin": "output55/X",
+            "cell": "sky130_fd_sc_hd__buf_1",
+            "delay": 0.07,
+            "fanout": 1,
+            "cap": 0.0
+          },
+          {
+            "pin": "_121_/Y",
+            "cell": "sky130_fd_sc_hd__clkinv_1",
+            "delay": 0.06,
+            "fanout": 2,
+            "cap": 0.01
+          }
+        ],
+        "inserted_buffers": []
+      },
+      "section": "finish report_checks -path_delay min"
+    },
+    {
+      "startpoint": "dpath.b_reg.out[4]$_DFFE_PP_",
+      "startpoint_type": "rising edge-triggered flip-flop clocked by core_clock",
+      "endpoint": "dpath.a_reg.out[15]$_DFFE_PP_",
+      "endpoint_type": "rising edge-triggered flip-flop clocked by core_clock",
+      "path_group": "core_clock",
+      "path_type": "max",
+      "slack": -1.22,
+      "status": "VIOLATED",
+      "required_time": 1.14,
+      "arrival_time": 2.36,
+      "library_setup_time": 0.24,
+      "launch_clock_latency": 0.29,
+      "capture_clock_latency": 0.28,
+      "clock_period_used": 1.1,
+      "clock_skew": -0.01,
+      "stages": [
+        {
+          "pin": "dpath.b_reg.out[4]$_DFFE_PP_/Q",
+          "cell": "sky130_fd_sc_hd__edfxtp_1",
+          "edge": "fall",
+          "fanout": 2,
+          "cap": 0.01,
+          "slew": 0.08,
+          "delay": 0.39,
+          "time": 0.68,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_145_/A",
+          "cell": "sky130_fd_sc_hd__xnor3_2",
+          "edge": "fall",
+          "slew": 0.08,
+          "delay": 0.0,
+          "time": 0.68,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_145_/X",
+          "cell": "sky130_fd_sc_hd__xnor3_2",
+          "edge": "fall",
+          "fanout": 5,
+          "cap": 0.02,
+          "slew": 0.11,
+          "delay": 0.44,
+          "time": 1.13,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_214_/B",
+          "cell": "sky130_fd_sc_hd__or2_1",
+          "edge": "fall",
+          "slew": 0.11,
+          "delay": 0.0,
+          "time": 1.13,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_214_/X",
+          "cell": "sky130_fd_sc_hd__or2_1",
+          "edge": "fall",
+          "fanout": 3,
+          "cap": 0.02,
+          "slew": 0.11,
+          "delay": 0.29,
+          "time": 1.42,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_225_/C",
+          "cell": "sky130_fd_sc_hd__nor3_2",
+          "edge": "fall",
+          "slew": 0.11,
+          "delay": 0.0,
+          "time": 1.42,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_225_/Y",
+          "cell": "sky130_fd_sc_hd__nor3_2",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.01,
+          "slew": 0.16,
+          "delay": 0.15,
+          "time": 1.57,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_228_/B1",
+          "cell": "sky130_fd_sc_hd__a221oi_2",
+          "edge": "rise",
+          "slew": 0.16,
+          "delay": 0.0,
+          "time": 1.57,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_228_/Y",
+          "cell": "sky130_fd_sc_hd__a221oi_2",
+          "edge": "fall",
+          "fanout": 1,
+          "cap": 0.01,
+          "slew": 0.1,
+          "delay": 0.08,
+          "time": 1.66,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/rebuffer_mt262/A",
+          "cell": "sky130_fd_sc_hd__buf_6",
+          "edge": "fall",
+          "slew": 0.1,
+          "delay": 0.0,
+          "time": 1.66,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/rebuffer_mt262/X",
+          "cell": "sky130_fd_sc_hd__buf_6",
+          "edge": "fall",
+          "fanout": 3,
+          "cap": 0.03,
+          "slew": 0.04,
+          "delay": 0.16,
+          "time": 1.81,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_130_/A3",
+          "cell": "sky130_fd_sc_hd__o311ai_4",
+          "edge": "fall",
+          "slew": 0.04,
+          "delay": 0.0,
+          "time": 1.81,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_130_/Y",
+          "cell": "sky130_fd_sc_hd__o311ai_4",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.01,
+          "slew": 0.26,
+          "delay": 0.25,
+          "time": 2.06,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_131_/B",
+          "cell": "sky130_fd_sc_hd__xnor2_2",
+          "edge": "rise",
+          "slew": 0.26,
+          "delay": 0.0,
+          "time": 2.06,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_131_/Y",
+          "cell": "sky130_fd_sc_hd__xnor2_2",
+          "edge": "fall",
+          "fanout": 2,
+          "cap": 0.0,
+          "slew": 0.07,
+          "delay": 0.09,
+          "time": 2.15,
+          "kind": "out"
+        },
+        {
+          "pin": "_202_/A1",
+          "cell": "sky130_fd_sc_hd__mux2i_1",
+          "edge": "fall",
+          "slew": 0.07,
+          "delay": 0.0,
+          "time": 2.15,
+          "kind": "in"
+        },
+        {
+          "pin": "_202_/Y",
+          "cell": "sky130_fd_sc_hd__mux2i_1",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.0,
+          "slew": 0.12,
+          "delay": 0.14,
+          "time": 2.29,
+          "kind": "out"
+        },
+        {
+          "pin": "_204_/A2",
+          "cell": "sky130_fd_sc_hd__o21ai_1",
+          "edge": "rise",
+          "slew": 0.12,
+          "delay": 0.0,
+          "time": 2.29,
+          "kind": "in"
+        },
+        {
+          "pin": "_204_/Y",
+          "cell": "sky130_fd_sc_hd__o21ai_1",
+          "edge": "fall",
+          "fanout": 1,
+          "cap": 0.0,
+          "slew": 0.05,
+          "delay": 0.07,
+          "time": 2.36,
+          "kind": "out"
+        },
+        {
+          "pin": "dpath.a_reg.out[15]$_DFFE_PP_/D",
+          "cell": "sky130_fd_sc_hd__edfxtp_1",
+          "edge": "fall",
+          "slew": 0.05,
+          "delay": 0.0,
+          "time": 2.36,
+          "kind": "in"
+        }
+      ],
+      "metrics": {
+        "logic_depth": 10,
+        "data_path_delay": 2.06,
+        "cell_delay_sum": 2.06,
+        "wire_delay_sum": 0.0,
+        "wire_delay_ratio": 0.0,
+        "max_fanout": 5,
+        "max_slew": 0.26,
+        "slowest_cells": [
+          {
+            "pin": "_119_/_145_/X",
+            "cell": "sky130_fd_sc_hd__xnor3_2",
+            "delay": 0.44,
+            "fanout": 5,
+            "cap": 0.02
+          },
+          {
+            "pin": "dpath.b_reg.out[4]$_DFFE_PP_/Q",
+            "cell": "sky130_fd_sc_hd__edfxtp_1",
+            "delay": 0.39,
+            "fanout": 2,
+            "cap": 0.01
+          },
+          {
+            "pin": "_119_/_214_/X",
+            "cell": "sky130_fd_sc_hd__or2_1",
+            "delay": 0.29,
+            "fanout": 3,
+            "cap": 0.02
+          }
+        ],
+        "inserted_buffers": [
+          "_119_/rebuffer_mt262/X"
+        ]
+      },
+      "section": "finish report_checks -path_delay max"
+    },
+    {
+      "startpoint": "dpath.b_reg.out[4]$_DFFE_PP_",
+      "startpoint_type": "rising edge-triggered flip-flop clocked by core_clock",
+      "endpoint": "resp_msg[15]",
+      "endpoint_type": "output port clocked by vclk_core_clock",
+      "path_group": "vclk_core_clock",
+      "path_type": "max",
+      "slack": -1.21,
+      "status": "VIOLATED",
+      "required_time": 1.17,
+      "arrival_time": 2.38,
+      "output_external_delay": 0.22,
+      "launch_clock_latency": 0.29,
+      "stages": [
+        {
+          "pin": "dpath.b_reg.out[4]$_DFFE_PP_/Q",
+          "cell": "sky130_fd_sc_hd__edfxtp_1",
+          "edge": "fall",
+          "fanout": 2,
+          "cap": 0.01,
+          "slew": 0.08,
+          "delay": 0.39,
+          "time": 0.68,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_145_/A",
+          "cell": "sky130_fd_sc_hd__xnor3_2",
+          "edge": "fall",
+          "slew": 0.08,
+          "delay": 0.0,
+          "time": 0.68,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_145_/X",
+          "cell": "sky130_fd_sc_hd__xnor3_2",
+          "edge": "fall",
+          "fanout": 5,
+          "cap": 0.02,
+          "slew": 0.11,
+          "delay": 0.44,
+          "time": 1.13,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_214_/B",
+          "cell": "sky130_fd_sc_hd__or2_1",
+          "edge": "fall",
+          "slew": 0.11,
+          "delay": 0.0,
+          "time": 1.13,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_214_/X",
+          "cell": "sky130_fd_sc_hd__or2_1",
+          "edge": "fall",
+          "fanout": 3,
+          "cap": 0.02,
+          "slew": 0.11,
+          "delay": 0.29,
+          "time": 1.42,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_225_/C",
+          "cell": "sky130_fd_sc_hd__nor3_2",
+          "edge": "fall",
+          "slew": 0.11,
+          "delay": 0.0,
+          "time": 1.42,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_225_/Y",
+          "cell": "sky130_fd_sc_hd__nor3_2",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.01,
+          "slew": 0.16,
+          "delay": 0.15,
+          "time": 1.57,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_228_/B1",
+          "cell": "sky130_fd_sc_hd__a221oi_2",
+          "edge": "rise",
+          "slew": 0.16,
+          "delay": 0.0,
+          "time": 1.57,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_228_/Y",
+          "cell": "sky130_fd_sc_hd__a221oi_2",
+          "edge": "fall",
+          "fanout": 1,
+          "cap": 0.01,
+          "slew": 0.1,
+          "delay": 0.08,
+          "time": 1.66,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/rebuffer_mt262/A",
+          "cell": "sky130_fd_sc_hd__buf_6",
+          "edge": "fall",
+          "slew": 0.1,
+          "delay": 0.0,
+          "time": 1.66,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/rebuffer_mt262/X",
+          "cell": "sky130_fd_sc_hd__buf_6",
+          "edge": "fall",
+          "fanout": 3,
+          "cap": 0.03,
+          "slew": 0.04,
+          "delay": 0.16,
+          "time": 1.81,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_130_/A3",
+          "cell": "sky130_fd_sc_hd__o311ai_4",
+          "edge": "fall",
+          "slew": 0.04,
+          "delay": 0.0,
+          "time": 1.81,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_130_/Y",
+          "cell": "sky130_fd_sc_hd__o311ai_4",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.01,
+          "slew": 0.26,
+          "delay": 0.25,
+          "time": 2.06,
+          "kind": "out"
+        },
+        {
+          "pin": "_119_/_131_/B",
+          "cell": "sky130_fd_sc_hd__xnor2_2",
+          "edge": "rise",
+          "slew": 0.26,
+          "delay": 0.0,
+          "time": 2.06,
+          "kind": "in"
+        },
+        {
+          "pin": "_119_/_131_/Y",
+          "cell": "sky130_fd_sc_hd__xnor2_2",
+          "edge": "rise",
+          "fanout": 2,
+          "cap": 0.01,
+          "slew": 0.13,
+          "delay": 0.15,
+          "time": 2.21,
+          "kind": "out"
+        },
+        {
+          "pin": "place171/A",
+          "cell": "sky130_fd_sc_hd__buf_4",
+          "edge": "rise",
+          "slew": 0.13,
+          "delay": 0.0,
+          "time": 2.21,
+          "kind": "in"
+        },
+        {
+          "pin": "place171/X",
+          "cell": "sky130_fd_sc_hd__buf_4",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.0,
+          "slew": 0.02,
+          "delay": 0.12,
+          "time": 2.33,
+          "kind": "out"
+        },
+        {
+          "pin": "output45/A",
+          "cell": "sky130_fd_sc_hd__buf_1",
+          "edge": "rise",
+          "slew": 0.02,
+          "delay": 0.0,
+          "time": 2.33,
+          "kind": "in"
+        },
+        {
+          "pin": "output45/X",
+          "cell": "sky130_fd_sc_hd__buf_1",
+          "edge": "rise",
+          "fanout": 1,
+          "cap": 0.0,
+          "slew": 0.02,
+          "delay": 0.05,
+          "time": 2.38,
+          "kind": "out"
+        },
+        {
+          "pin": "resp_msg[15]",
+          "cell": "out",
+          "edge": "rise",
+          "slew": 0.02,
+          "delay": 0.0,
+          "time": 2.38,
+          "kind": "in"
+        }
+      ],
+      "metrics": {
+        "logic_depth": 10,
+        "data_path_delay": 2.08,
+        "cell_delay_sum": 2.08,
+        "wire_delay_sum": 0.0,
+        "wire_delay_ratio": 0.0,
+        "max_fanout": 5,
+        "max_slew": 0.26,
+        "slowest_cells": [
+          {
+            "pin": "_119_/_145_/X",
+            "cell": "sky130_fd_sc_hd__xnor3_2",
+            "delay": 0.44,
+            "fanout": 5,
+            "cap": 0.02
+          },
+          {
+            "pin": "dpath.b_reg.out[4]$_DFFE_PP_/Q",
+            "cell": "sky130_fd_sc_hd__edfxtp_1",
+            "delay": 0.39,
+            "fanout": 2,
+            "cap": 0.01
+          },
+          {
+            "pin": "_119_/_214_/X",
+            "cell": "sky130_fd_sc_hd__or2_1",
+            "delay": 0.29,
+            "fanout": 3,
+            "cap": 0.02
+          }
+        ],
+        "inserted_buffers": [
+          "_119_/rebuffer_mt262/X",
+          "place171/X"
+        ]
+      },
+      "section": "finish report_checks -path_delay max"
+    }
+  ],
+  "source": "data/period_default.rpt"
+}
